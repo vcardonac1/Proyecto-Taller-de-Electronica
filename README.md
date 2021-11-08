@@ -1,1 +1,1 @@
-# Proyecto-Taller-de-Electronica
+# Proyecto Taller de Electrónica
