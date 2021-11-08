@@ -24,8 +24,8 @@ void loop() {
 // ----------------- FUNCIÓN QUE MIDE LA TEMPERATURA ----------------- //
 void medirTemperatura(){
   float temp;
-  temperatura.requestTemperatures();   //Se envía el comando para leer la temperatura
-  temp = temperatura.getTempCByIndex(0); //Se obtiene la temperatura en ºC
+  temperatura.requestTemperatures();              // Se envía el comando para leer la temperatura
+  temp = temperatura.getTempCByIndex(0);          // Se obtiene la temperatura en ºC
   
   Serial.print("Temperatura= ");
   Serial.print(temp);
