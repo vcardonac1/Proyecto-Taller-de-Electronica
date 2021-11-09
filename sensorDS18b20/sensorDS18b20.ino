@@ -1,11 +1,11 @@
-// --------------- LIBRERIAS SENSOR TEMPERATURA DS18b20 --------------- //
-#include <OneWire.h>                
-#include <DallasTemperature.h>
+// ------------------------ LIBRERIAS SENSORES ------------------------ //
+#include <OneWire.h>                              // Libreria para ds18b20
+#include <DallasTemperature.h>                    // Libreria para ds18b20
 
 // --------------------- DEFINICIÓN DE LOS PINES ---------------------- //
-int const pinDS18b20 = 2;
+#define pinDS18b20 2;                             // Asignar pin digital 2 a ds18b20
 
-// -------------------- VARIABLES GLOBALES DS18b20 -------------------- //
+// ------------------------ VARIABLES GLOBALES ------------------------ //
 OneWire ourWire(pinDS18b20);                      // Se establece el pin 2 para la entrada de los datos del sensor DS18b20
 DallasTemperature temperatura(&ourWire);          // Se declara una variable u objeto para nuestro sensor
 
