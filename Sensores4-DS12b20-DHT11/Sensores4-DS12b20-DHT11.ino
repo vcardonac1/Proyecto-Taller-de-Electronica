@@ -50,7 +50,7 @@ void setup() {
 void loop() {
   medirTemperatura();                             // Función que mide la temperatura y la registra en el serial
   medirTemperaturaHumedad();                      // Función que mide la temperatura y humedad y la registra en el serial
-  delay(100);                     
+  delay(800);                     
 }
 
 // ----------------- FUNCIÓN QUE MIDE LA TEMPERATURA ----------------- //
@@ -63,16 +63,16 @@ void medirTemperatura(){
   float nivel_2;                                  // Se calcula el promedio entre los sensores 2 y 4
   
   temperatura_s1.requestTemperatures();           // Se envía el comando para leer la temperatura del sensor 1
-  temp1 = temperatura_s1.getTempCByIndex(0);      // Se obtiene la temperatura en ºC
+  temp1 = temperatura_s1.getTempCByIndex(0) - 2.5;// Se obtiene la temperatura en ºC
 
   temperatura_s2.requestTemperatures();           // Se envía el comando para leer la temperatura del sensor 2
-  temp2 = temperatura_s2.getTempCByIndex(0);      // Se obtiene la temperatura en ºC
+  temp2 = temperatura_s2.getTempCByIndex(0) - 2.5;// Se obtiene la temperatura en ºC
 
   temperatura_s3.requestTemperatures();           // Se envía el comando para leer la temperatura del sensor 3
-  temp3 = temperatura_s3.getTempCByIndex(0);      // Se obtiene la temperatura en ºC
+  temp3 = temperatura_s3.getTempCByIndex(0) - 2;// Se obtiene la temperatura en ºC
 
   temperatura_s4.requestTemperatures();           // Se envía el comando para leer la temperatura del sensor 4
-  temp4 = temperatura_s4.getTempCByIndex(0);      // Se obtiene la temperatura en ºC
+  temp4 = temperatura_s4.getTempCByIndex(0) - 2.5;// Se obtiene la temperatura en ºC
 
   nivel_1 = (temp1 + temp3)/2;
   nivel_2 = (temp2 + temp4)/2;
