@@ -4,22 +4,30 @@
  *      DS18b20 (2) -> pin digital 3
  *      DS18b20 (3) -> pin digital 4
  *      DS18b20 (4) -> pin digital 5
- *      DHT11       -> pin digital 8
+ *      DHT11       -> pin digital 6
  */
 
 // ------------------------ LIBRERIAS SENSORES ------------------------ //
 #include <OneWire.h>                              // Libreria para ds18b20
 #include <DallasTemperature.h>                    // Libreria para ds18b20
 #include <DHT.h>                                  // Libreria para dht11
+#include <LiquidCrystal.h>                        // Libreria para LCD
 
 // --------------------- DEFINICIÓN DE LOS PINES ---------------------- //
 #define pinDS18b20_s1 2                           // Asignar pin digital 2 a ds18b20 sensor 1
-#define pinDS18b20_s2 3                           // Asignar pin digital 2 a ds18b20 sensor 2
-#define pinDS18b20_s3 4                           // Asignar pin digital 2 a ds18b20 sensor 3
-#define pinDS18b20_s4 5                           // Asignar pin digital 2 a ds18b20 sensor 4
+#define pinDS18b20_s2 3                           // Asignar pin digital 3 a ds18b20 sensor 2
+#define pinDS18b20_s3 4                           // Asignar pin digital 4 a ds18b20 sensor 3
+#define pinDS18b20_s4 5                           // Asignar pin digital 5 a ds18b20 sensor 4
 
-#define DHTpin 8                                  // Asignar pin digital 8 a dht
+#define DHTpin 6                                  // Asignar pin digital 6 a dht
 #define DHTtype DHT11                             // Definir el tipo de dht
+
+#define pinRS 11                                  // Asignar pin 11 al RS del LCD
+#define pinEN 12                                  // Asignar pin 12 al EN del LCD
+#define pind4 7                                   // Asignar pin 7 al D4 del LCD
+#define pind5 8                                   // Asignar pin 8 al D5 del LCD
+#define pind6 9                                   // Asignar pin 9 al D6 del LCD
+#define pind7 10                                  // Asignar pin 10 al D7 del LCD
 
 // ------------------------ VARIABLES GLOBALES ------------------------ //
 OneWire ourWire_s1(pinDS18b20_s1);                // Se establece el pin para la entrada de los datos del sensor 1 DS18b20
@@ -36,6 +44,8 @@ DallasTemperature temperatura_s4(&ourWire_s4);    // Se declara una variable u o
 
 DHT dht(DHTpin, DHTtype);                         // Iniciar DHT
 
+LiquidCrystal lcd(pinRS, pinEN, pind4, pind5, pind6, pind7); // Iniciar LCD 
+
 // -------------------- INICIALIZACIÓN DEL SISTEMA -------------------- //
 void setup() {
   delay(1000);
@@ -45,6 +55,8 @@ void setup() {
   temperatura_s3.begin();                         // Se inicia el sensor 3 de temperatura
   temperatura_s4.begin();                         // Se inicia el sensor 4 de temperatura
   dht.begin();                                    // Se inicia el sensor de temperatura y humedad
+  
+  lcd.begin(16, 2);                               // Inicializar el LCD con el número de  columnas y filas del LCD
 }
  
 void loop() {
@@ -111,7 +123,9 @@ void medirTemperaturaHumedad(){
     return;
   }
   float hic = dht.computeHeatIndex(t, h, false);  // Calcular el índice de calor en grados centígrados
- 
+
+  printInLCD(h, t);
+  
   Serial.print("Humedad: ");
   Serial.print(h);
   Serial.print(" %\t");
@@ -121,4 +135,16 @@ void medirTemperaturaHumedad(){
   Serial.print("Índice de calor: ");
   Serial.print(hic);
   Serial.print(" C\n\n");
+}
+
+void printInLCD(float h, float t){
+  lcd.setCursor(0, 0);
+  lcd.print("Humedad ");
+  lcd.print(h);
+  lcd.print("%");
+
+  lcd.setCursor(0, 1);
+  lcd.print("Temperatura ");
+  lcd.print(t);
+  lcd.print("C");
 }
