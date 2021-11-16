@@ -85,9 +85,8 @@ void medirTemperatura(){
 
   temperatura_s4.requestTemperatures();           // Se envía el comando para leer la temperatura del sensor 4
   temp4 = temperatura_s4.getTempCByIndex(0) - 2.5;// Se obtiene la temperatura en ºC
-
-  nivel_1 = (temp1 + temp3)/2;
-  nivel_2 = (temp2 + temp4)/2;
+  
+  printInLCDcacao(temp1,temp2,temp3, temp4); 
   
   Serial.print("S1: ");
   Serial.print(temp1);
@@ -104,13 +103,6 @@ void medirTemperatura(){
   Serial.print("S4: ");
   Serial.print(temp4);
   Serial.print(" C\n");
-
-  Serial.print("Nivel 1: ");
-  Serial.print(nivel_1);
-  Serial.print(" C\t");
-  Serial.print("Nivel 2: ");
-  Serial.print(nivel_2);
-  Serial.print(" C\n");
 }
 
 // ------------ FUNCIÓN QUE MIDE LA TEMPERATURA Y HUMEDAD ------------ //
@@ -124,7 +116,7 @@ void medirTemperaturaHumedad(){
   }
   float hic = dht.computeHeatIndex(t, h, false);  // Calcular el índice de calor en grados centígrados
 
-  printInLCD(h, t);
+  //printInLCDambiente(h, t);
   
   Serial.print("Humedad: ");
   Serial.print(h);
@@ -137,7 +129,7 @@ void medirTemperaturaHumedad(){
   Serial.print(" C\n\n");
 }
 
-void printInLCD(float h, float t){
+void printInLCDambiente(float h, float t){
   lcd.setCursor(0, 0);
   lcd.print("Humedad ");
   lcd.print(h);
@@ -147,4 +139,18 @@ void printInLCD(float h, float t){
   lcd.print("Temperatura ");
   lcd.print(t);
   lcd.print("C");
+}
+
+void printInLCDcacao(float temp1,float temp2,float temp3,float temp4){
+  lcd.setCursor(0, 0);
+  lcd.print("1:");
+  lcd.print(temp1);
+  lcd.print(" 2:");
+  lcd.print(temp2);
+  
+  lcd.setCursor(0, 1);
+  lcd.print("3:");
+  lcd.print(temp3);
+  lcd.print(" 4:");
+  lcd.print(temp4);
 }
