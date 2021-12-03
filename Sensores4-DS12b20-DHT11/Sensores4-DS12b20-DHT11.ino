@@ -16,6 +16,9 @@
  *      
  *      Button confirmar volteo ------> pin analogo A5
  *      Button visualizacion    ------> pin analogo A4
+ *      
+ *      LED verde   ------------------> pin analogo A3 
+ *      LED rojo    ------------------> pin analogo A2
  */
 
 // ------------------------ LIBRERIAS SENSORES ------------------------ //
@@ -23,7 +26,7 @@
 #include <DallasTemperature.h>                  // Libreria para ds18b20
 #include <DHT.h>                                // Libreria para dht11
 #include <LiquidCrystal.h>                      // Libreria para LCD
-#include <NoDelay.h>
+#include <NoDelay.h>                            // Libreria para manejar el delay de las mediciones
 
 // --------------------- DEFINICIÓN DE LOS PINES ---------------------- //
 #define pinDS18b20_s1 2                         // Asignar pin digital 2 a ds18b20 sensor 1
@@ -67,7 +70,7 @@ LiquidCrystal lcd(pinRS, pinEN, pind4, pind5, pind6, pind7); // Iniciar LCD
  * Para pruebas se tomara cada 10s = 10000
  * Ambiente real cada 30 minutos  = 1800000
 */
-int tiempoEntreMediciones = 10000;              // Tiempo entre mediciones                                  $$$$$$
+int tiempoEntreMediciones = 10000;              // Tiempo entre mediciones                                                    $$$$$$
 int iter = 0;                                   // Tiempo entre mediciones
 long startTime;                                 // Variable que registra el tiempo de inicio
 long mediumTime;                                // Variable que registra el tiempo en medio de la ejecucion
@@ -107,7 +110,7 @@ void setup(){
   pinMode(buttonVisual, INPUT);                 // Se inicia el boton de cambio de visualizacion
 
   pinMode(greenStatus, OUTPUT);                 // Se inicia el LED verde
-  pinMode(redStatus, OUTPUT);                   // Se inicia el LED verde
+  pinMode(redStatus, OUTPUT);                   // Se inicia el LED rojo
 
   lcd.begin(16, 2);                             // Inicializar el LCD con el número de  columnas y filas del LCD
   startTime = millis();                         // Almacenar el tiempo de inicio
