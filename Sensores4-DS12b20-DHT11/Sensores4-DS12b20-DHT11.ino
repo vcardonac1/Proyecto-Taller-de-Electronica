@@ -115,6 +115,13 @@ void setup(){
   lcd.begin(16, 2);                             // Inicializar el LCD con el número de  columnas y filas del LCD
   startTime = millis();                         // Almacenar el tiempo de inicio
   digitalWrite(greenStatus, HIGH);
+
+  // display en LCD
+  lcd.setCursor(0, 0);
+  lcd.print("Bienvenido  ");
+  lcd.print(0);
+  lcd.setCursor(0, 1);
+  lcd.print("Iniciando proceso");
 }
 
 void medirTemperatura();                        // Función que mide la temperatura y la registra en el serial
@@ -138,6 +145,10 @@ void loop(){
   if(buttonState == HIGH){
     changeViewLCD();
   }
+  buttonState = digitalRead(buttonVolteo);
+  if (buttonState == HIGH)  {
+    displayEtapa();
+  }
 }
 
 // ----------------- FUNCIÓN QUE MIDE LA TEMPERATURA ----------------- //
@@ -154,43 +165,20 @@ void medirTemperatura(){
 
   temperatura_s4.requestTemperatures();            // Se envía el comando para leer la temperatura del sensor 4
   temp4 = temperatura_s4.getTempCByIndex(0) - 2.5; // Se obtiene la temperatura en ºC
-
-  Serial.print("S1: ");
-  Serial.print(temp1);
-  Serial.print(" C\t");
-  Serial.print("S2: ");
-  Serial.print(temp2);
-  Serial.print(" C\t");
-  Serial.print("S3: ");
-  Serial.print(temp3);
-  Serial.print(" C\t");
-  Serial.print("S4: ");
-  Serial.print(temp4);
-  Serial.print(" C\n");
 }
 
 // ------------ FUNCIÓN QUE MIDE LA TEMPERATURA Y HUMEDAD ------------ //
 void medirTemperaturaHumedad(){
-  
+
   h = dht.readHumidity();    // Se lee la humedad relativa
   t = dht.readTemperature(); // Se lee la temperatura en grados centígrados (por defecto)
 
   if (isnan(h) || isnan(t))
   { // Se comprueba si ha habido algún error en la lectura
-    Serial.println("Error obteniendo los datos del sensor DHT11");
     return;
   }
   hic = dht.computeHeatIndex(t, h, false); // Calcular el índice de calor en grados centígrados
 
-  Serial.print("Humedad: ");
-  Serial.print(h);
-  Serial.print(" %\t");
-  Serial.print("Temperatura: ");
-  Serial.print(t);
-  Serial.print(" C\t");
-  Serial.print("Índice de calor: ");
-  Serial.print(hic);
-  Serial.print(" C\n\n");
 }
 
 void printInLCDambiente(){
@@ -286,7 +274,7 @@ void activarAlertas(){
     // display en LCD
     lcd.setCursor(0, 0);
     lcd.print("Fin Etapa ");
-    lcd.print(0);
+    lcd.print(etapaVolteo);
     lcd.setCursor(0, 1);
     lcd.print("Realizar volteo");
 
@@ -308,4 +296,13 @@ void changeViewLCD(){
     printInLCDcacao();
     viewLCD = 0;
   } 
+}
+
+void displayEtapa(){
+  // display en LCD
+  lcd.setCursor(0, 0);
+  lcd.print("Se encuentra en");
+  lcd.setCursor(0, 1);
+  lcd.print("Etapa ");
+  lcd.print(etapaVolteo);
 }
